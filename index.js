@@ -53,7 +53,7 @@ app.get('/', function(req, res) {
             json.calendar.items.push({
               status: 'confirmed',
               htmlLink: calendarUrl,
-              dateTime: `${dateTime} ${hour}`,
+              dateTime: `${dateTime} - ${hour}`,
               summary: 'Next Game',
               description: `EPAM vs ${challenger}`,
               location: location
