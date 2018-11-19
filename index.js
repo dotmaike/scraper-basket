@@ -67,6 +67,6 @@ app.get('/', function(req, res) {
 
 app.listen('3000');
 
-console.log('Magic happens on port 80');
+console.log('Magic happens on port 3000');
 
 exports = module.exports = app;
