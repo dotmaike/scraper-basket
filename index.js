@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 const moment = require('moment-timezone');
 const app = express();
 
-app.get('/calendar', function(req, res) {
+app.get('/', function(req, res) {
   /* cron.schedule("* * * * *", function() {
     console.log("running a task every minute");
   }); */
