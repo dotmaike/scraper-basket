@@ -38,7 +38,8 @@ app.get('/', function(req, res) {
             const challenger = $(element)
               .find('td:nth-child(3)')
               .text()
-              .trim();
+              .trim()
+              .split('(')[0];
             const location = $(element)
               .closest('table')
               .prev()
