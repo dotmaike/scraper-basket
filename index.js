@@ -4,6 +4,7 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
+const PORT = process.env.PORT || 5000
 const app = express();
 
 app.get('/', function(req, res) {
@@ -66,6 +67,6 @@ app.get('/', function(req, res) {
   });
 });
 
-app.listen(3000, () => console.log('Server running on port 3000!'));
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 exports = module.exports = app;
