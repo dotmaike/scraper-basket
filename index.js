@@ -65,8 +65,8 @@ app.get('/calendar', function(req, res) {
   });
 });
 
-app.listen('2323');
+app.listen('80');
 
-console.log('Magic happens on port 2323');
+console.log('Magic happens on port 80');
 
 exports = module.exports = app;
