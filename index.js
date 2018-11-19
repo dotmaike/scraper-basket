@@ -1,4 +1,4 @@
-const cron = require("node-cron");
+const cron = require('node-cron');
 const express = require('express');
 const fs = require('fs');
 const request = require('request');
@@ -38,8 +38,8 @@ app.get('/', function(req, res) {
             const challenger = $(element)
               .find('td:nth-child(3)')
               .text()
-              .trim()
-              .split('(')[0];
+              .split('(')[0]
+              .trim();
             const location = $(element)
               .closest('table')
               .prev()
