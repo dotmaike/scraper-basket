@@ -4,10 +4,28 @@ const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 const app = express();
 
-app.get('/', function(req, res) {
+const cache = duration => {
+  return (req, res, next) => {
+    let key = '__express__' + req.originalUrl || req.url;
+    let cachedBody = mcache.get(key);
+    if (cachedBody) {
+      res.send(cachedBody);
+      return;
+    } else {
+      res.sendResponse = res.send;
+      res.send = body => {
+        mcache.put(key, body, duration * 1000);
+        res.sendResponse(body);
+      };
+      next();
+    }
+  };
+};
+
+app.get('/', cache(60), (req, res) => {
   /* cron.schedule("* * * * *", function() {
     console.log("running a task every minute");
   }); */
@@ -67,6 +85,6 @@ app.get('/', function(req, res) {
   });
 });
 
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 exports = module.exports = app;
