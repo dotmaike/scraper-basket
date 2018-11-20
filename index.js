@@ -29,7 +29,7 @@ express()
     const url = `${mainUrl}/index.php/calendario-de-juegos`;
     const json = {
       calendar: {
-        updated: moment().format(),
+        updated: moment().format('MMMM Do YYYY, h:mm:ss a'),
         timeZone: 'America/Mexico_City',
         items: []
       }
