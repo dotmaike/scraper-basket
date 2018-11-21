@@ -24,12 +24,15 @@ const cache = duration => {
 };
 
 express()
+  .use(require('body-parser').json())
   .get('/', cache(10), (req, res) => {
     const mainUrl = 'http://www.magnoliga7.com';
     const url = `${mainUrl}/index.php/calendario-de-juegos`;
     const json = {
       calendar: {
-        updated: moment().tz('America/Mexico_City').format(),
+        updated: moment()
+          .tz('America/Mexico_City')
+          .format(),
         timeZone: 'America/Mexico_City',
         items: []
       }
@@ -75,7 +78,7 @@ express()
               });
             });
           }
-          res.send(json);
+          res.status(200).json(json);
         });
       }
     });
