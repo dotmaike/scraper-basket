@@ -24,60 +24,64 @@ const cache = duration => {
 };
 
 express()
-  .get('/', cache(60), (req, res) => {
-    const mainUrl = 'http://www.magnoliga7.com';
-    const url = `${mainUrl}/index.php/calendario-de-juegos`;
-    const json = {
-      calendar: {
-        updated: moment().tz('America/Mexico_City').format(),
-        timeZone: 'America/Mexico_City',
-        items: []
-      }
-    };
-    request(url, function(error, response, html) {
-      if (!error) {
-        let $ = cheerio.load(html);
-        const calendarPath = $(html)
-          .find('.cat-list-row1 > td > a')
-          .attr('href');
-        const calendarUrl = `${mainUrl}${calendarPath}`;
-        request(calendarUrl, function(err, response, DOM) {
-          if (!err) {
-            let $ = cheerio.load(DOM);
-            const tree = $('tr:contains("EPAM")');
-            $(tree).each(function(index, element) {
-              const hour = $(element)
-                .find('td:first-child')
-                .text()
-                .trim();
-              const challenger = $(element)
-                .find('td:nth-child(3)')
-                .text()
-                .split('(')[0]
-                .trim();
-              const location = $(element)
-                .closest('table')
-                .prev()
-                .text()
-                .trim();
-              const dateTime = $(element)
-                .closest('table')
-                .prev()
-                .prev()
-                .text();
-              json.calendar.items.push({
-                status: 'confirmed',
-                htmlLink: calendarUrl,
-                dateTime: `${dateTime} - ${hour}`,
-                summary: 'Next Game',
-                description: `EPAM vs ${challenger}`,
-                location: location
+  .get('/', cache(10), (req, res) => {
+    setTimeout(() => {
+      const mainUrl = 'http://www.magnoliga7.com';
+      const url = `${mainUrl}/index.php/calendario-de-juegos`;
+      const json = {
+        calendar: {
+          updated: moment()
+            .tz('America/Mexico_City')
+            .format(),
+          timeZone: 'America/Mexico_City',
+          items: []
+        }
+      };
+      request(url, function(error, response, html) {
+        if (!error) {
+          let $ = cheerio.load(html);
+          const calendarPath = $(html)
+            .find('.cat-list-row1 > td > a')
+            .attr('href');
+          const calendarUrl = `${mainUrl}${calendarPath}`;
+          request(calendarUrl, function(err, response, DOM) {
+            if (!err) {
+              let $ = cheerio.load(DOM);
+              const tree = $('tr:contains("EPAM")');
+              $(tree).each(function(index, element) {
+                const hour = $(element)
+                  .find('td:first-child')
+                  .text()
+                  .trim();
+                const challenger = $(element)
+                  .find('td:nth-child(3)')
+                  .text()
+                  .split('(')[0]
+                  .trim();
+                const location = $(element)
+                  .closest('table')
+                  .prev()
+                  .text()
+                  .trim();
+                const dateTime = $(element)
+                  .closest('table')
+                  .prev()
+                  .prev()
+                  .text();
+                json.calendar.items.push({
+                  status: 'confirmed',
+                  htmlLink: calendarUrl,
+                  dateTime: `${dateTime} - ${hour}`,
+                  summary: 'Next Game',
+                  description: `EPAM vs ${challenger}`,
+                  location: location
+                });
               });
-            });
-          }
-          res.send(json);
-        });
-      }
-    });
+            }
+            res.send(json);
+          });
+        }
+      });
+    }, 5000);
   })
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
