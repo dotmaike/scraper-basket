@@ -24,7 +24,14 @@ const cache = duration => {
 };
 
 express()
-  .use(require('body-parser').json())
+  .use(require('body-parser').json(), function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    next();
+  })
   .get('/', cache(10), (req, res) => {
     const mainUrl = 'http://www.magnoliga7.com';
     const url = `${mainUrl}/index.php/calendario-de-juegos`;
@@ -53,7 +60,11 @@ express()
                 .find('td:first-child')
                 .text()
                 .trim();
-              const challenger = $(element)
+              const local = $(element)
+                .find('td:nth-child(2)')
+                .text()
+                .trim();
+              const visitor = $(element)
                 .find('td:nth-child(3)')
                 .text()
                 .split('(')[0]
@@ -73,7 +84,7 @@ express()
                 htmlLink: calendarUrl,
                 dateTime: `${dateTime} - ${hour}`,
                 summary: 'Next Game',
-                description: `EPAM vs ${challenger}`,
+                description: `${local} vs ${visitor}`,
                 location: location
               });
             });
