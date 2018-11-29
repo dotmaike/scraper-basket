@@ -93,12 +93,12 @@ app.use(require('body-parser').json(), (req, res, next) => {
 
 app.get('/teams', cache(3600), (req, res) => {
   const json = {
-    calendar: {
+    teams: {
       updated: moment()
         .tz('America/Mexico_City')
         .format(),
       timeZone: 'America/Mexico_City',
-      teams: []
+      items: []
     }
   };
   request(app.locals.url, (error, response, html) => {
