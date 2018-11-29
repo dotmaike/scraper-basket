@@ -111,8 +111,7 @@ app.get('/teams', cache(3600), (req, res) => {
       request(calendarUrl, (err, response, DOM) => {
         if (!err) {
           let $ = cheerio.load(DOM);
-          const teams = getTeams($);
-          json.calendar.teams = teams;
+          json.teams.items = getTeams($);
         }
         res.status(200).json(json);
       });
