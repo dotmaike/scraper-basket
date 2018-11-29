@@ -82,7 +82,7 @@ function getGames($, team, calendarUrl) {
 app.locals.mainUrl = 'http://www.magnoliga7.com';
 app.locals.url = `${app.locals.mainUrl}/index.php/calendario-de-juegos`;
 
-app.use(require('body-parser').json(), function(req, res, next) {
+app.use(require('body-parser').json(), (req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
@@ -101,14 +101,14 @@ app.get('/teams', cache(3600), (req, res) => {
       teams: []
     }
   };
-  request(app.locals.url, function(error, response, html) {
+  request(app.locals.url, (error, response, html) => {
     if (!error) {
       let $ = cheerio.load(html);
       const calendarPath = $(html)
         .find('.cat-list-row1 > td > a')
         .attr('href');
       const calendarUrl = `${app.locals.mainUrl}${calendarPath}`;
-      request(calendarUrl, function(err, response, DOM) {
+      request(calendarUrl, (err, response, DOM) => {
         if (!err) {
           let $ = cheerio.load(DOM);
           const teams = getTeams($);
@@ -131,14 +131,14 @@ app.get('/teams/:team', cache(3600), (req, res) => {
       items: []
     }
   };
-  request(app.locals.url, function(error, response, html) {
+  request(app.locals.url, (error, response, html) => {
     if (!error) {
       let $ = cheerio.load(html);
       const calendarPath = $(html)
         .find('.cat-list-row1 > td > a')
         .attr('href');
       const calendarUrl = `${app.locals.mainUrl}${calendarPath}`;
-      request(calendarUrl, function(err, response, DOM) {
+      request(calendarUrl, (err, response, DOM) => {
         if (!err) {
           let $ = cheerio.load(DOM);
           json.calendar.items = getGames($, team, calendarUrl);
