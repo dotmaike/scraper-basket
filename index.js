@@ -48,7 +48,8 @@ express()
       if (!error) {
         let $ = cheerio.load(html);
         const calendarPath = $(html)
-          .find('.cat-list-row1 > td > a')
+          .find('[class^="cat-list-row"] > td > a')
+          .first()
           .attr('href');
         const calendarUrl = `${mainUrl}${calendarPath}`;
         request(calendarUrl, function(err, response, DOM) {

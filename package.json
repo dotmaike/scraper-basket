@@ -8,22 +8,22 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon --inspect index.js",
+    "dev": "nodemon --inspect index.js 8080",
     "test": "node test.js"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "cheerio": "^1.0.0-rc.2",
-    "express": "^4.15.2",
-    "memory-cache": "^0.2.0",
-    "moment": "^2.22.2",
-    "moment-timezone": "^0.5.23",
-    "request": "^2.88.0"
+    "body-parser": "1.19.0",
+    "cheerio": "0.22.0",
+    "express": "4.17.1",
+    "memory-cache": "0.2.0",
+    "moment": "2.24.0",
+    "moment-timezone": "0.5.27",
+    "request": "2.88.0"
   },
   "devDependencies": {
-    "node-inspect": "^1.11.5",
-    "nodemon": "^1.18.6",
-    "tape": "^4.7.0"
+    "node-inspect": "1.11.6",
+    "nodemon": "2.0.2",
+    "tape": "4.11.0"
   },
   "repository": {
     "type": "git",
