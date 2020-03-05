@@ -47,14 +47,15 @@ express()
     request(url, function(error, response, html) {
       if (!error) {
         let $ = cheerio.load(html);
-        const item = Object.keys(
-          $(html).find('[class^="cat-list-row"] > td > a')
-        ).filter(i =>
-          $(result[i])
-            .attr("href")
-            .includes("semana")
-        );
-        const calendarPath = $(result[item[0]]).attr('href');
+        const items = $(html).find('[class^="cat-list-row"] > td > a');
+        const index = Object.keys(items)
+          .filter(i => $(items[i]).attr("href"))
+          .filter(i =>
+            $(items[i])
+              .attr("href")
+              .includes("semana")
+          );
+        const calendarPath = $(items[index[0]]).attr("href");
         const calendarUrl = `${mainUrl}${calendarPath}`;
         request(calendarUrl, function(err, response, DOM) {
           if (!err) {
